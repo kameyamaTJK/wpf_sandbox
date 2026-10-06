@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfSandbox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfSandbox"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <local:FreeCellGrid x:Name="freeCellGrid">
+            <local:FreeCellGrid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </local:FreeCellGrid.ColumnDefinitions>
+            <local:FreeCellGrid.CellInfos>
+                <local:CellInfo Column="1" ColumnSpan="1" Bind="{Binding AAA}"/>
+            </local:FreeCellGrid.CellInfos>
+            <local:FreeCellGrid.CellControlFactory>
+                <!--<local:TextCellFactory>
+                    <local:TextCellFactory.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Height" Value="50"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                        </Style>
+                    </local:TextCellFactory.Style>
+                </local:TextCellFactory>-->
+                <local:ContentPresenterCellFactory>
+                    <local:ContentPresenterCellFactory.Template>
+                        <DataTemplate DataType="local:SampleData">
+                            <Border Height="50" Margin="5" Background="#FF0DFDC9">
+                                <TextBlock Text="{Binding AAA, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </local:ContentPresenterCellFactory.Template>
+                </local:ContentPresenterCellFactory>
+            </local:FreeCellGrid.CellControlFactory>
+        </local:FreeCellGrid>
+    </Grid>
+</Window>
