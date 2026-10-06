@@ -16,32 +16,31 @@
                 <ColumnDefinition/>
             </local:FreeCellGrid.ColumnDefinitions>
             <local:FreeCellGrid.CellInfos>
-                <local:CellInfo Column="1" ColumnSpan="1" Bind="{Binding AAA}"/>
+                <local:CellInfo Column="1" ColumnSpan="1">
+                    <local:CellInfo.CellControlFactory>
+                        <local:ContentPresenterCellFactory>
+                            <local:ContentPresenterCellFactory.Template>
+                                <DataTemplate DataType="local:SampleData">
+                                    <Border Height="Auto" Margin="5" Background="#FF0DFDC9">
+                                        <TextBlock Text="{Binding AAA, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </local:ContentPresenterCellFactory.Template>
+                        </local:ContentPresenterCellFactory>
+                    </local:CellInfo.CellControlFactory>
+                </local:CellInfo>
+                <local:CellInfo Column="2" ColumnSpan="2">
+                    <local:CellInfo.CellControlFactory>
+                        <local:ContentPresenterCellFactory>
+                            <local:ContentPresenterCellFactory.Template>
+                                <DataTemplate DataType="local:SampleData">
+                                    <Button Content="{Binding BBB, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </local:ContentPresenterCellFactory.Template>
+                        </local:ContentPresenterCellFactory>
+                    </local:CellInfo.CellControlFactory>
+                </local:CellInfo>
             </local:FreeCellGrid.CellInfos>
-            <local:FreeCellGrid.CellControlFactory>
-                <!--<local:TextCellFactory>
-                    <local:TextCellFactory.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="Margin" Value="5"/>
-                            <Setter Property="Height" Value="50"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                            <Setter Property="TextAlignment" Value="Center"/>
-                        </Style>
-                    </local:TextCellFactory.Style>
-                </local:TextCellFactory>-->
-                <local:ContentPresenterCellFactory>
-                    <local:ContentPresenterCellFactory.Template>
-                        <DataTemplate DataType="local:SampleData">
-                            <Border Height="50" Margin="5" Background="#FF0DFDC9">
-                                <TextBlock Text="{Binding AAA, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </DataTemplate>
-                    </local:ContentPresenterCellFactory.Template>
-                </local:ContentPresenterCellFactory>
-            </local:FreeCellGrid.CellControlFactory>
         </local:FreeCellGrid>
     </Grid>
 </Window>

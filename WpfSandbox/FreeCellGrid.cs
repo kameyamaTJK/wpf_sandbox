@@ -7,17 +7,23 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using static WpfSandbox.FreeCellGrid;
 
 namespace WpfSandbox
 {
-    public class CellInfo
+    public interface ICellControlFactory
     {
-        public int Column { get; set; } = 0;
-        public int ColumnSpan { get; set; } = 1;
-        public Binding Bind { get; set; }
+        FrameworkElement CreateCellControl(object data);
     }
 
-    public class TextCellFactory : FreeCellGrid.ICellControlFactory
+    public class CellInfo
+    {
+        public int Column { get; set; }
+        public int ColumnSpan { get; set; }
+        public ICellControlFactory CellControlFactory { get; set; }
+    }
+
+    public class TextCellFactory : ICellControlFactory
     {
         public Style Style { get; set; }
 
@@ -31,12 +37,6 @@ namespace WpfSandbox
 
     public class FreeCellGrid : Grid
     {
-        public interface ICellControlFactory
-        {
-            FrameworkElement CreateCellControl(object data);
-        }
-
-        public ICellControlFactory CellControlFactory { get; set; } = new TextCellFactory();
 
         public System.Collections.IEnumerable ItemsSource
         {
@@ -70,6 +70,14 @@ namespace WpfSandbox
             Reflesh();
         }
 
+        public GridLength RowHeight
+        {
+            get { return (GridLength)GetValue(RowHeightProperty); }
+            set { SetValue(RowHeightProperty, value); }
+        }
+        public static readonly DependencyProperty RowHeightProperty =
+            DependencyProperty.Register("RowHeight", typeof(GridLength), typeof(FreeCellGrid), new PropertyMetadata(new GridLength(1.0, GridUnitType.Star)));
+
         public void Reflesh()
         {
             if (ItemsSource == null || CellInfos == null)
@@ -87,11 +95,14 @@ namespace WpfSandbox
             int row = 0;
             foreach (var item in items)
             {
-                RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1.0, GridUnitType.Auto)});
+                var rowDefinition = new RowDefinition();
+                rowDefinition.SetBinding(RowDefinition.HeightProperty, new Binding("RowHeight") { Source = this });
+
+                RowDefinitions.Add(rowDefinition);
 
                 foreach (var cell in cells)
                 {
-                    var cellControl = CellControlFactory.CreateCellControl(item);
+                    var cellControl = cell.CellControlFactory.CreateCellControl(item);
                     if (cellControl == null)
                     {
                         Debug.Assert(true, "CellControlFactory.CreateCellControl() is failed.");

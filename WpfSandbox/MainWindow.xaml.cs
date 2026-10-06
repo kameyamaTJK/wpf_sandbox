@@ -24,9 +24,17 @@ namespace WpfSandbox
         }
         public static readonly DependencyProperty AAAProperty =
             DependencyProperty.Register("AAA", typeof(string), typeof(SampleData), new PropertyMetadata(string.Empty));
+
+        public string BBB
+        {
+            get { return (string)GetValue(BBBProperty); }
+            set { SetValue(BBBProperty, value); }
+        }
+        public static readonly DependencyProperty BBBProperty =
+            DependencyProperty.Register("BBB", typeof(string), typeof(SampleData), new PropertyMetadata(string.Empty));
     }
 
-    public class ContentPresenterCellFactory : FreeCellGrid.ICellControlFactory
+    public class ContentPresenterCellFactory : ICellControlFactory
     {
         public DataTemplate Template { get; set; }
 
@@ -52,11 +60,11 @@ namespace WpfSandbox
 
             freeCellGrid.ItemsSource = new List<SampleData>()
             {
-                new SampleData() { AAA = "SampleData 1" },
-                new SampleData() { AAA = "SampleData 2" },
-                new SampleData() { AAA = "SampleData 3" },
-                new SampleData() { AAA = "SampleData 4" },
-                new SampleData() { AAA = "SampleData 5" },
+                new SampleData() { AAA = "SampleData 1", BBB = "SAMPLE-DATA A" },
+                new SampleData() { AAA = "SampleData 2", BBB = "SAMPLE-DATA B" },
+                new SampleData() { AAA = "SampleData 3", BBB = "SAMPLE-DATA C" },
+                new SampleData() { AAA = "SampleData 4", BBB = "SAMPLE-DATA D" },
+                new SampleData() { AAA = "SampleData 5", BBB = "SAMPLE-DATA E" },
             };
         }
     }
